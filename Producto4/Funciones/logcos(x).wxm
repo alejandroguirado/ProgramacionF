@@ -1,0 +1,22 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+f(x):= log(cos(x));
+P2(x):=taylor(f(x), x, 0, 2);
+P6(x):=taylor(f(x), x, 0, 6);
+P14(x):=taylor(f(x), x, 0, 14);
+P18(x):=taylor(f(x), x, 0, 18);
+fortran(P2(x));
+fortran(P6(x));
+fortran(P14(x));
+fortran(P18(x));
+tex(P2(x));
+tex(P6(x));
+tex(P14(x));
+tex(P18(x));
+plot2d ([f(x),P2(x), P6(x), P14(x), P18(x)],[x, -%pi, %pi],[y,-%pi, %pi],[color,red,yellow ,green,blue,black],[legend, "log(cos(x))", "P2", "P6", "P14","P18"],[axes, true], [ylabel,"log(cos(x))"],[box, false]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

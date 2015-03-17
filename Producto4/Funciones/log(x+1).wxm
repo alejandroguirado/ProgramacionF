@@ -1,0 +1,22 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+f(x):= log(x+1);
+P4(x):=taylor(f(x), x, 0, 4);
+P7(x):=taylor(f(x), x, 0, 7);
+P11(x):=taylor(f(x), x, 0, 11);
+P16(x):=taylor(f(x), x, 0, 16);
+fortran(P4(x));
+fortran(P7(x));
+fortran(P11(x));
+fortran(P16(x));
+tex(P4(x));
+tex(P7(x));
+tex(P11(x));
+tex(P16(x));
+plot2d ([ P4(x),P7(x), P11(x), P16(x),f(x)], [x, -2, 2], [y, -1, 3],[color,blue ,red,green ,gray,black],[legend,"P4", 
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

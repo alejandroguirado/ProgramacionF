@@ -1,0 +1,20 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+r(f(x), x, 0, 4);
+P6(x):=taylor(f(x), x, 0, 6);
+P8(x):=taylor(f(x), x, 0, 8);
+fortran(P2(x));
+fortran(P4(x));
+fortran(P6(x));
+fortran(P8(x));
+tex(P2(x));
+tex(P4(x));
+tex(P6(x));
+tex(P8(x));
+plot2d ([f(x),P2(x), P4(x), P6(x), P8(x)], [x, -0.5, 0.5],[legend, "exp(x)/cos(x)", "P2", "P4", "P6","P8"],[gnuplot_preamble, "set key left"]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

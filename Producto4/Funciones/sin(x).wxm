@@ -1,0 +1,25 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+f(x):=sin(x);
+p1(x):=taylor(f(x), x, 0, 1);
+p3(x):=taylor(f(x), x, 0, 3);
+p5(x):=taylor(f(x), x, 0, 5);
+p7(x):=taylor(f(x), x, 0, 7);
+fortran(p1(x));
+fortran(p3(x));
+fortran(p5(x));
+fortran(p7(x));
+tex(p1(x));
+tex(p3(x));
+tex(p5(x));
+tex(p7(x));
+plot2d ([f(x),p1(x), p3(x), p5(x), p7(x)], [x, -3.5, 3.5], [y, -1.5, 1.5],
+[color,red,green,blue,orange,gray],[legend, "f(x)=sin(x)", "f(x)=P1", "f(x)=P3", "f(x)=P5", "f(x)=P7"],
+[axes, true], [ylabel,"y"], [xlabel,"x"],[box, false],
+[gnuplot_preamble,"set ylabel 'y'; set xlabel 'x' "]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
