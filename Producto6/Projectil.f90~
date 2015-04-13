@@ -1,0 +1,121 @@
+module Constantes
+implicit NONE
+real, parameter :: rad=(4.0*atan(1.0))/180
+real, parameter :: pi=4.0*atan(1.0)
+integer, parameter :: pts= 7000 
+real, parameter :: da = 1.29
+!Coeficientes de arrastre
+real, parameter :: esfera = 0.47 
+end module Constantes
+
+subroutine sinfriccion  (x0,y0,v0,gr0,xmaxsf,ymaxsf,tiemposf)
+use Constantes
+implicit none 
+integer :: I
+real, dimension (1:pts) :: x, y, t
+real :: x0, y0, v0, gr0
+real :: xmaxsf, ymaxsf, tiemposf
+
+gr0=gr0*rad
+xmaxsf = x0+((v0*v0*sin(2*gr0))/(9.8))
+ymaxsf = y0+((v0*v0*sin(gr0)*sin(gr0)))/(19.6)
+tiemposf= (2*v0*sin(gr0))/(9.8)
+
+open (1, file= "sinfriccion.dat")
+do I=1, pts, 1
+t(I)= float(I)*0.01
+x(I)= x0+(v0*cos(gr0)*t(I))
+y(I)= y0+(v0*sin(gr0)*t(I))-(4.9*t(I)*(t(I)))
+
+write (1,1001) x(I), y(I)
+1001 format (f11.5,f11.5)
+
+if (y(I)<0) exit
+end do
+
+close (1)
+end subroutine sinfriccion
+
+
+
+
+subroutine friccion (x0,y0,v0,gr0,xmaxf,ymaxf,tiempof)
+use Constantes
+implicit none
+integer :: I
+character :: objeto
+real, dimension (0:pts) :: p,q,r,velp,velq,cp,cp
+real :: x0,y0,v0,gr0
+real :: xmaxf,ymaxf,tiempof
+real :: ad, area, radio, cd, masa
+print *, "Ingrese la masa en kg"
+read *, masa
+print *, "¿Cual es el radio de la esfera?"
+read *, radio
+area=pi*radio*radio
+cd=esfera
+
+case DEFAULT
+print *, "No existe"
+
+end select
+
+
+p(0) = x0
+q(0) = y0
+velp(0) = v0*cos(gr0)
+velq(0) = v0*sin(gr0)
+ad = (0.5*da*area*cd)/masa
+cp(0) = -ad*velp(0)*velp(0)
+cq(0) = 9.8-(ad*velq(0)*velq(0))
+d(0) = 0
+open (2, file="friccion.dat")
+write (2,1001) a(0), b(0)
+1001 format (f11.5,f11.5)
+
+do I=0, pts, 1
+c(I+1)= c(I)+ 0.01
+velp(I+1) = velp(I)+cp(I)*d(I+1) 
+velq(i+1) = velq(I)+cp(I)*d(I+1)
+cp(I+1) = -ad*velp(I)*velp(I)
+cq(I+1) = -9.8-(ad*velp(I)*velp(I))
+p(I+1) = p(I)+velp(I)*d(I+1)+(0.5*cp(I)*d(I+1)*d(I+1))
+q(I+1) = q(I)+velq(I)*d(I+1)+(0.5*cq(I)*d(I+1)*d(I+1))
+write (2,*) a(I+1), b(I+1)
+if (b(I)<0) exit
+end do
+close (2)
+
+xmaxt = a(I)
+ymaxt = MAXVAL(b)
+tiempof = d(I)*10
+end subroutine friccion
+
+
+program proyectilf
+use Constantes
+implicit none
+real :: x0,y0,v0,grad0
+real :: xmaxsf,ymaxsf,tiemposf,xmaxf,ymaxf,tiempof
+real :: error
+print *, "Inserte los valores inciales de x,y,v y grad"
+read *, x0,y0,v0,gr0
+call sinfriccion (x0,y0,v0,gr0,xmaxsf,ymaxsf,tiemposf)
+call friccion (x0,y0,v0,gr0,xmaxf,ymaxf,tiempof)
+error = ((xmaxsf-xmaxf)/xmaxf * 100)
+print *, "Coordenadas en", x0,y0
+print *, "Velocidad inicial de", v0,"m/s"
+print *, "Angulo de", gr0
+print *, "---"
+print *, "Sin friccion"
+print *, "Tiempo en el aire=", tiemposf,"s"
+print *, "Altura maxima=", ymaxsf, "m"
+print *, "Alcance horizontal=", xmaxsf,"m"
+print *, "---"
+print *, "Con friccion"
+print *, "Tiempo en el aire=", tiempof,"s"
+print *, "Altura maxima=", ymaxf,"m"
+print *, "Alcance horizontal=", xmaxf,"m"
+print *, "Y el error al no considerar ninguna el arrastre  del aire es=", error
+
+end program proyectilf
